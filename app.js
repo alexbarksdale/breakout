@@ -1,6 +1,14 @@
 const canvas = document.getElementById('my-canvas');
 const ctx = canvas.getContext('2d');
 
+let lives = 3;
+
+const drawLives = () => {
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#0095DD';
+    ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+};
+
 // ==============================
 // BRICK VARIABLES
 const BRICK_ROW_COUNT = 3;
@@ -127,7 +135,7 @@ const collisionDetection = () => {
                     dy = -dy;
                     brick.status = 0;
                     score += 1;
-                    if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
+                    if (score === BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
                         alert('Good job, you won!');
                         document.location.reload();
                         clearInterval(interval); // Needed for Chrome to end game
@@ -144,6 +152,7 @@ const draw = () => {
     drawBall();
     drawPaddle();
     drawScore();
+    drawLives();
     collisionDetection();
 
     // Bounce off the left and right
@@ -158,9 +167,18 @@ const draw = () => {
         if (x > paddleX && x < paddleX + PADDLE_WIDTH) {
             dy = -dy;
         } else {
-            alert('GAME OVER');
-            document.location.reload();
-            clearInterval(interval);
+            lives -= 1;
+            if (!lives) {
+                alert('Game Over!');
+                document.location.reload();
+                clearInterval(interval);
+            } else {
+                x = canvas.width / 2;
+                y = canvas.height - 30;
+                dx = 2;
+                dy = -2;
+                paddleX = (canvas.width - PADDLE_WIDTH) / 2;
+            }
         }
     }
 
