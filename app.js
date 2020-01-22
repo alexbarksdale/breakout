@@ -86,13 +86,24 @@ const drawPaddle = () => {
 };
 
 // ==============================
+// MOUSE CONTROLS
+const mouseMoveHandler = (e) => {
+    const relativeX = e.clientX - canvas.offsetLeft;
+    if (relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - PADDLE_WIDTH / 2;
+    }
+};
+
+document.addEventListener('mousemove', mouseMoveHandler, false);
+
+// ==============================
 // SCORE PROPERTIES
 let score = 0;
 
 const drawScore = () => {
     ctx.font = '16px Arial';
     ctx.fillStyle = '#0095DD';
-    ctx.fillText('Score: ' + score, 8, 20);
+    ctx.fillText(`Score: ${score}`, 8, 20);
 };
 
 // ==============================
