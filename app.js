@@ -86,6 +86,16 @@ const drawPaddle = () => {
 };
 
 // ==============================
+// SCORE PROPERTIES
+let score = 0;
+
+const drawScore = () => {
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#0095DD';
+    ctx.fillText('Score: ' + score, 8, 20);
+};
+
+// ==============================
 // PIXELS TO MOVE THE BALL (SPEED)
 let dx = 2;
 let dy = -2;
@@ -105,6 +115,12 @@ const collisionDetection = () => {
                 ) {
                     dy = -dy;
                     brick.status = 0;
+                    score += 1;
+                    if (score == BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
+                        alert('Good job, you won!');
+                        document.location.reload();
+                        clearInterval(interval); // Needed for Chrome to end game
+                    }
                 }
             }
         }
@@ -116,6 +132,7 @@ const draw = () => {
     drawBricks();
     drawBall();
     drawPaddle();
+    drawScore();
     collisionDetection();
 
     // Bounce off the left and right
