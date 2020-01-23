@@ -4,9 +4,9 @@ const ctx = canvas.getContext('2d');
 let lives = 3;
 
 const drawLives = () => {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = '#0095DD';
-    ctx.fillText(`Lives: ${lives}`, canvas.width - 65, 20);
+    ctx.font = '35px Teko';
+    ctx.fillStyle = '#fff';
+    ctx.fillText(`LIVES: ${lives}`, canvas.width - 85, 35);
 };
 
 // ==============================
@@ -16,7 +16,7 @@ const BRICK_COLUMN_COUNT = 5;
 const BRICK_WIDTH = 75;
 const BRICK_HEIGHT = 20;
 const BRICK_PADDING = 10;
-const BRICK_OFF_SET_TOP = 30;
+const BRICK_OFF_SET_TOP = 95;
 const BRICK_OFF_SET_LEFT = 30;
 
 const bricks = [];
@@ -109,9 +109,9 @@ document.addEventListener('mousemove', mouseMoveHandler, false);
 let score = 0;
 
 const drawScore = () => {
-    ctx.font = '16px Arial';
-    ctx.fillStyle = '#0095DD';
-    ctx.fillText(`Score: ${score}`, 8, 20);
+    ctx.font = '35px Teko';
+    ctx.fillStyle = '#fff';
+    ctx.fillText(`SCORE: ${score}`, 8, 35);
 };
 
 // ==============================
