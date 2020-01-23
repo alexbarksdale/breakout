@@ -37,7 +37,19 @@ const drawBricks = () => {
                 bricks[column][row].y = BRICK_Y;
                 ctx.beginPath();
                 ctx.rect(BRICK_X, BRICK_Y, BRICK_WIDTH, BRICK_HEIGHT);
-                ctx.fillStyle = '#F7705E';
+                switch (row) {
+                    case 0:
+                        ctx.fillStyle = '#F7705E';
+                        break;
+                    case 1:
+                        ctx.fillStyle = '#ffab61';
+                        break;
+                    case 2:
+                        ctx.fillStyle = '#7aff83';
+                        break;
+                    default:
+                        ctx.fillStyle = '#a6a6a6';
+                }
                 ctx.fill();
             }
         }
@@ -117,7 +129,7 @@ const drawScore = () => {
 // ==============================
 // PIXELS TO MOVE THE BALL (SPEED)
 let dx = 2;
-let dy = -2;
+let dy = -5;
 
 // ==============================
 // COLLISION PROPERTIES
@@ -176,7 +188,7 @@ const draw = () => {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
                 dx = 2;
-                dy = -2;
+                dy = -5;
                 paddleX = (canvas.width - PADDLE_WIDTH) / 2;
             }
         }
