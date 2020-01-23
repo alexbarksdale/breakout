@@ -1,3 +1,4 @@
+const gameHeader = document.getElementById('game-header');
 const canvas = document.getElementById('my-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -126,6 +127,18 @@ const drawScore = () => {
     ctx.fillText(`SCORE: ${score}`, 8, 35);
 };
 
+const gameOver = () => {
+    for (let column = 0; column < BRICK_COLUMN_COUNT; column += 1) {
+        for (let row = 0; row < BRICK_ROW_COUNT; row += 1) {
+            if (bricks[column][row].status === 1) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};
+
 // ==============================
 // PIXELS TO MOVE THE BALL (SPEED)
 let dx = 2;
@@ -146,10 +159,21 @@ const collisionDetection = () => {
                 ) {
                     dy = -dy;
                     brick.status = 0;
-                    score += 1;
-                    if (score === BRICK_ROW_COUNT * BRICK_COLUMN_COUNT) {
-                        alert('Good job, you won!');
-                        document.location.reload();
+
+                    // Points based off the row
+                    if (row === 0) {
+                        score += 200;
+                    } else if (row === 1) {
+                        score += 100;
+                    } else {
+                        score += 10;
+                    }
+
+                    if (gameOver()) {
+                        gameHeader.innerHTML = `Game over, you won! <br /> Your Score - ${score}`;
+                        setTimeout(() => {
+                            document.location.reload();
+                        }, 3000);
                         clearInterval(interval); // Needed for Chrome to end game
                     }
                 }
@@ -181,8 +205,10 @@ const draw = () => {
         } else {
             lives -= 1;
             if (!lives) {
-                alert('Game Over!');
-                document.location.reload();
+                gameHeader.innerHTML = `Game over you lost! <br /> Your Score - ${score}`;
+                setTimeout(() => {
+                    document.location.reload();
+                }, 3000);
                 clearInterval(interval);
             } else {
                 x = canvas.width / 2;
