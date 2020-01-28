@@ -10,34 +10,39 @@ const drawLives = () => {
     ctx.fillText(`LIVES: ${lives}`, canvas.width - 85, 35);
 };
 
-// ==============================
-// BRICK VARIABLES
-const BRICK_ROW_COUNT = 3;
-const BRICK_COLUMN_COUNT = 5;
-const BRICK_WIDTH = 75;
-const BRICK_HEIGHT = 20;
-const BRICK_PADDING = 10;
-const BRICK_OFF_SET_TOP = 95;
-const BRICK_OFF_SET_LEFT = 30;
+// Object that contains all brick properties
+const brickObj = {
+    bricks: [],
+    brickRowCount: 3,
+    brickColumnCount: 5,
+    brickWidth: 75,
+    brickHeight: 20,
+    brickPadding: 10,
+    brickOffSetTop: 95,
+    brickOffSetLeft: 30
+};
 
-const bricks = [];
 // Loops through the rows and columns and creates the bricks
-for (let column = 0; column < BRICK_COLUMN_COUNT; column += 1) {
-    bricks[column] = [];
-    for (let row = 0; row < BRICK_ROW_COUNT; row += 1) {
-        bricks[column][row] = { x: 0, y: 0, status: 1 };
+for (let column = 0; column < brickObj.brickColumnCount; column += 1) {
+    brickObj.bricks[column] = [];
+    for (let row = 0; row < brickObj.brickRowCount; row += 1) {
+        brickObj.bricks[column][row] = { x: 0, y: 0, status: 1 };
     }
 }
 const drawBricks = () => {
-    for (let column = 0; column < BRICK_COLUMN_COUNT; column += 1) {
-        for (let row = 0; row < BRICK_ROW_COUNT; row += 1) {
-            if (bricks[column][row].status === 1) {
-                const BRICK_X = column * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFF_SET_LEFT;
-                const BRICK_Y = row * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFF_SET_TOP;
-                bricks[column][row].x = BRICK_X;
-                bricks[column][row].y = BRICK_Y;
+    for (let column = 0; column < brickObj.brickColumnCount; column += 1) {
+        for (let row = 0; row < brickObj.brickRowCount; row += 1) {
+            if (brickObj.bricks[column][row].status === 1) {
+                const BRICK_X =
+                    column * (brickObj.brickWidth + brickObj.brickPadding) +
+                    brickObj.brickOffSetLeft;
+                const BRICK_Y =
+                    row * (brickObj.brickWidth + brickObj.brickPadding) +
+                    brickObj.brickOffSetTop;
+                brickObj.bricks[column][row].x = BRICK_X;
+                brickObj.bricks[column][row].y = BRICK_Y;
                 ctx.beginPath();
-                ctx.rect(BRICK_X, BRICK_Y, BRICK_WIDTH, BRICK_HEIGHT);
+                ctx.rect(BRICK_X, BRICK_Y, brickObj.brickWidth, brickObj.brickHeight);
                 switch (row) {
                     case 0:
                         ctx.fillStyle = '#F7705E';
@@ -57,15 +62,24 @@ const drawBricks = () => {
     }
 };
 
+// Object that contains all ball properties
+const ball = {
+    x: canvas.width / 2,
+    dx: 2,
+    y: canvas.height - 30,
+    dy: -5,
+    ballRadius: 10,
+    move() {
+        this.x += this.dx;
+        this.y += this.dy;
+    }
+};
+
 // ==============================
 // BALL PROPERTIES
-let x = canvas.width / 2;
-let y = canvas.height - 30;
-const BALL_RADIUS = 10;
-
 const drawBall = () => {
     ctx.beginPath();
-    ctx.arc(x, y, BALL_RADIUS, 0, Math.PI * 2); // x,y,width,height
+    ctx.arc(ball.x, ball.y, ball.ballRadius, 0, Math.PI * 2); // x,y,width,height
     ctx.fillStyle = '#ffffff';
     ctx.fill(); // automatcally closes
 };
@@ -128,9 +142,9 @@ const drawScore = () => {
 };
 
 const gameOver = () => {
-    for (let column = 0; column < BRICK_COLUMN_COUNT; column += 1) {
-        for (let row = 0; row < BRICK_ROW_COUNT; row += 1) {
-            if (bricks[column][row].status === 1) {
+    for (let column = 0; column < brickObj.brickColumnCount; column += 1) {
+        for (let row = 0; row < brickObj.brickRowCount; row += 1) {
+            if (brickObj.bricks[column][row].status === 1) {
                 return false;
             }
         }
@@ -140,24 +154,19 @@ const gameOver = () => {
 };
 
 // ==============================
-// PIXELS TO MOVE THE BALL (SPEED)
-let dx = 2;
-let dy = -5;
-
-// ==============================
 // COLLISION PROPERTIES
 const collisionDetection = () => {
-    for (let column = 0; column < BRICK_COLUMN_COUNT; column += 1) {
-        for (let row = 0; row < BRICK_ROW_COUNT; row += 1) {
-            const brick = bricks[column][row];
+    for (let column = 0; column < brickObj.brickColumnCount; column += 1) {
+        for (let row = 0; row < brickObj.brickRowCount; row += 1) {
+            const brick = brickObj.bricks[column][row];
             if (brick.status === 1) {
                 if (
-                    x > brick.x &&
-                    x < brick.x + BRICK_WIDTH &&
-                    y > brick.y &&
-                    y < brick.y + BRICK_HEIGHT
+                    ball.x > brick.x &&
+                    ball.x < brick.x + brickObj.brickWidth &&
+                    ball.y > brick.y &&
+                    ball.y < brick.y + brickObj.brickHeight
                 ) {
-                    dy = -dy;
+                    ball.dy = -ball.dy;
                     brick.status = 0;
 
                     // Points based off the row
@@ -192,16 +201,19 @@ const draw = () => {
     collisionDetection();
 
     // Bounce off the left and right
-    if (x + dx > canvas.width - BALL_RADIUS || x + dx < BALL_RADIUS) {
-        dx = -dx;
+    if (
+        ball.x + ball.dx > canvas.width - ball.ballRadius ||
+        ball.x + ball.dx < ball.ballRadius
+    ) {
+        ball.dx = -ball.dx;
     }
 
     // Bounce off the top and bottom
-    if (y + dy < BALL_RADIUS) {
-        dy = -dy;
-    } else if (y + dy > canvas.height - BALL_RADIUS) {
-        if (x > paddleX && x < paddleX + PADDLE_WIDTH) {
-            dy = -dy;
+    if (ball.y + ball.dy < ball.ballRadius) {
+        ball.dy = -ball.dy;
+    } else if (ball.y + ball.dy > canvas.height - ball.ballRadius) {
+        if (ball.x > paddleX && ball.x < paddleX + PADDLE_WIDTH) {
+            ball.dy = -ball.dy;
         } else {
             lives -= 1;
             if (!lives) {
@@ -211,10 +223,10 @@ const draw = () => {
                 }, 3000);
                 clearInterval(interval);
             } else {
-                x = canvas.width / 2;
-                y = canvas.height - 30;
-                dx = 2;
-                dy = -5;
+                ball.x = canvas.width / 2;
+                ball.y = canvas.height - 30;
+                ball.dx = 2;
+                ball.dy = -5;
                 paddleX = (canvas.width - PADDLE_WIDTH) / 2;
             }
         }
@@ -226,9 +238,7 @@ const draw = () => {
         paddleX -= 7;
     }
 
-    // Moves the ball
-    x += dx;
-    y += dy;
+    ball.move();
 };
 
 const interval = setInterval(draw, 10);
