@@ -1,10 +1,6 @@
 const gameHeader = document.getElementById('game-header');
 
 export default class Game {
-    constructor() {
-        this.interval = setInterval(this.draw, 10);
-    }
-
     gameOver(bricks) {
         for (let column = 0; column < bricks.brickColumnCount; column += 1) {
             for (let row = 0; row < bricks.brickRowCount; row += 1) {

@@ -1,10 +1,10 @@
 /* eslint-disable */
-import Ball from './classes/ball.js';
-import Bricks from './classes/bricks.js';
-import Paddle from './classes/paddle.js';
-import Score from './classes/score.js';
-import Lives from './classes/lives.js';
-import Game from './classes/game.js';
+import Ball from '../classes/ball.js';
+import Bricks from '../classes/bricks.js';
+import Paddle from '../classes/paddle.js';
+import Score from '../classes/score.js';
+import Lives from '../classes/lives.js';
+import Game from '../classes/game.js';
 /* eslint-enable */
 
 const gameHeader = document.getElementById('game-header');
