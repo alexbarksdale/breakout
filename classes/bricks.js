@@ -19,18 +19,26 @@ export default class Bricks {
     }
 
     render(ctx) {
-        for (let column = 0; column < this.brickColumnCount; column += 1) {
-            for (let row = 0; row < this.brickRowCount; row += 1) {
-                if (this.bricks[column][row].status === 1) {
-                    const BRICK_X =
-                        column * (this.brickWidth + this.brickPadding) +
-                        this.brickOffSetLeft;
-                    const BRICK_Y =
-                        row * (this.brickWidth + this.brickPadding) + this.brickOffSetTop;
-                    this.bricks[column][row].x = BRICK_X;
-                    this.bricks[column][row].y = BRICK_Y;
+        const {
+            brickColumnCount,
+            brickOffSetTop,
+            brickOffSetLeft,
+            brickRowCount,
+            brickHeight,
+            brickWidth,
+            brickPadding,
+            bricks
+        } = this;
+
+        for (let column = 0; column < brickColumnCount; column += 1) {
+            for (let row = 0; row < brickRowCount; row += 1) {
+                if (bricks[column][row].status === 1) {
+                    const BRICK_X = column * (brickWidth + brickPadding) + brickOffSetLeft;
+                    const BRICK_Y = row * (brickWidth + brickPadding) + brickOffSetTop;
+                    bricks[column][row].x = BRICK_X;
+                    bricks[column][row].y = BRICK_Y;
                     ctx.beginPath();
-                    ctx.rect(BRICK_X, BRICK_Y, this.brickWidth, this.brickHeight);
+                    ctx.rect(BRICK_X, BRICK_Y, brickWidth, brickHeight);
                     switch (row) {
                         case 0:
                             ctx.fillStyle = '#F7705E';
