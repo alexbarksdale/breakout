@@ -1,6 +1,6 @@
 ## Table of Contents
 
-* [About the Project](#about)
+* [About the Project](#breakout)
 
 * [Getting Started](#getting-started)
   * [Installation](#installation)
@@ -8,13 +8,7 @@
 
 # breakout
 
-
-## About
-# Breakout
-
 A basic breakout game from a [Mozilla tutorial](https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript). The goal was to convert the Mozilla tutorial to use modern Javascript. I began with converting **var** with **const** and **let**. Afterwords, I transitioned functions to be more object oriented to allow for reusability. 
-
-
 
 ## Getting Started
 
