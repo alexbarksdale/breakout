@@ -24,7 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
 git clone https://github.com/alexbarksdale/breakout
 ```
 
-2. Simply open index.html
+2. Open index.html in the ```dist``` folder
 
 ## Acknowledgments
 
