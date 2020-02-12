@@ -3,7 +3,7 @@ export default class Ball {
         this.radius = radius;
         this.x = canvas.width / 2;
         this.y = canvas.height - 10;
-        this.dx = 2;
+        this.dx = 3;
         this.dy = -5;
     }
 
